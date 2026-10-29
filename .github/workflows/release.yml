@@ -1,0 +1,23 @@
+name: Aegis release
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: write
+  actions: read
+
+concurrency:
+  group: aegis-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    uses: prasanthece42/aegis-platform/.github/workflows/python-web-release.yml@5ea1b7e414b2e1f23fad849127e1bb72ded84b45
+    with:
+      app-id: hello-guided
+      container-port: "8000"
+      health-path: "/health"
